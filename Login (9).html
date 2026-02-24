@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Login - Blue Knight</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #000814;
+      color: #E0E0E0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative; 
+      overflow-x: hidden;
+    }
+
+    .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 420px;
+        position: relative;
+        z-index: 10;
+    }
+
+    h1.main-title {
+      font-family: 'Orbitron', sans-serif;
+      color: #00AEEF;
+      font-size: 32px;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px rgba(0, 174, 239, 0.6);
+      letter-spacing: 2px;
+    }
+
+    .container {
+      background: #001C2E;
+      border: 1px solid #0066CC;
+      padding: 24px;
+      border-radius: 20px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 0 25px rgba(0, 174, 239, 0.4);
+      backdrop-filter: blur(5px);
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .profile-card {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .profile-logo {
+      width: 100px; 
+      height: 100px; 
+      margin: 0 auto 15px; 
+      display: block; 
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 174, 239, 0.8); 
+      border: 3px solid #00AEEF; 
+      object-fit: cover;
+    }
+
+    .section-title { 
+      font-family: 'Orbitron', sans-serif; 
+      font-size: 18px; 
+      color: #00AEEF; 
+      margin-bottom: 15px; 
+      text-align: left; 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+    }
+    
+    input[type="text"], input[type="password"] { 
+      width: 100%; 
+      padding: 14px 18px; 
+      border-radius: 10px; 
+      background: #002B44; 
+      border: 1px solid #00AEEF; 
+      color: #E0E0E0; 
+      margin-bottom: 25px; 
+      font-size: 16px; 
+      font-family: 'Montserrat', sans-serif; 
+      outline: none; 
+      transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+    }
+    
+    input::placeholder {
+      color: #9A9A9A;
+    }
+    
+    input:focus {
+      border-color: #007BFF;
+      box-shadow: 0 0 10px rgba(0, 174, 239, 0.5);
+    }
+
+    .execute-button { 
+      background: linear-gradient(90deg, #00AEEF, #007BFF); 
+      color: #fff; 
+      padding: 18px; 
+      width: 100%; 
+      border-radius: 10px; 
+      font-weight: bold; 
+      border: none; 
+      margin-bottom: 12px; 
+      cursor: pointer; 
+      font-size: 18px; 
+      letter-spacing: 1px; 
+      transition: 0.3s ease, box-shadow 0.3s ease; 
+      box-shadow: 0 0 15px rgba(0, 174, 239, 0.4); 
+    }
+    
+    .execute-button:hover { 
+      background: linear-gradient(90deg, #007BFF, #00AEEF); 
+      box-shadow: 0 0 25px rgba(0, 174, 239, 0.8); 
+    }
+
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 8, 20, 0.95);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+    
+    .video-container.active {
+      display: flex;
+    }
+    
+    .video-wrapper {
+      width: 80%;
+      max-width: 800px;
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 50px rgba(0, 174, 239, 0.4);
+      border: 2px solid #00AEEF;
+    }
+    
+    .video-player {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 15px;
+    }
+
+    /* Efek asap biru */
+    #smoke-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .smoke-particle {
+      position: absolute;
+      bottom: 0;
+      width: 5px;
+      height: 5px;
+      background-color: rgba(0, 174, 239, 0.6);
+      border-radius: 50%;
+      filter: blur(2px);
+      animation: smoke-rise linear infinite;
+    }
+
+    @keyframes smoke-rise {
+      0% {
+        transform: translateY(0) translateX(0) scale(0.5);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translateY(-50vh) translateX(10px) scale(1.5);
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(20px) scale(2);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="smoke-background"></div>
+  
+  <div class="video-container" id="videoContainer">
+    <div class="video-wrapper">
+      <video class="video-player" id="loginVideo">
+        <source src="https://files.catbox.moe/rckxyz.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+  
+  <div class="app-wrapper">
+    <h1 class="main-title">Blue Knight</h1>
+
+    <div class="container profile-card">
+        <img src="https://files.catbox.moe/xmfpkj.jpg" alt="Logo" class="profile-logo" />
+        <div class="profile-username" style="font-family: 'Orbitron', sans-serif; font-size: 24px; color: #E0E0E0; font-weight: bold; margin-bottom: 8px;">Login Account</div>
+        <div class="profile-details" style="font-size: 14px; color: #9A9A9A;">
+          Silahkan Login Menggunakan Akun Anda Untuk Memakai Blue Knight
+        </div>
+    </div>
+
+    <div class="container">
+        <form method="POST" action="/auth" id="loginForm">
+            <div class="section-title">Username</div>
+            <input type="text" name="username" placeholder="Enter your username" required />
+
+            <div class="section-title">Password</div>
+            <input type="password" name="key" placeholder="Enter your password" required />
+
+            <button type="submit" class="execute-button">
+              <i class="fas fa-sign-in-alt"></i> LOGIN
+            </button>
+        </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginForm = document.getElementById('loginForm');
+      const videoContainer = document.getElementById('videoContainer');
+      const loginVideo = document.getElementById('loginVideo');
+      
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        showSuccessVideo();
+        loginVideo.addEventListener('ended', () => this.submit(), { once: true });
+      });
+      
+      function showSuccessVideo() {
+        videoContainer.classList.add('active');
+        loginVideo.play().catch(() => loginForm.submit());
+      }
+      
+      function createSmokeParticles() {
+        const smokeBackground = document.getElementById('smoke-background');
+        for (let i = 0; i < 15; i++) setTimeout(() => createSmokeParticle(smokeBackground), i * 200);
+        setInterval(() => createSmokeParticle(smokeBackground), 300);
+      }
+      
+      function createSmokeParticle(container) {
+        const particle = document.createElement('div');
+        particle.classList.add('smoke-particle');
+        particle.style.left = `${Math.random() * 100}%`;
+        const duration = 10 + Math.random() * 20;
+        particle.style.animationDuration = `${duration}s`;
+        const size = 3 + Math.random() * 7;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.backgroundColor = `rgba(0, 174, 239, ${0.3 + Math.random() * 0.4})`;
+        container.appendChild(particle);
+        setTimeout(() => particle.remove(), duration * 1000);
+      }
+
+      createSmokeParticles();
+      loginVideo.load();
+    });
+  </script>
+</body>
+</html>
